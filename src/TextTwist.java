@@ -1,4 +1,6 @@
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collections;
 
 /*
 In Text Twist, players try to score points by forming words using the letters from a 6-letter scrambled word.
@@ -29,6 +31,12 @@ if the word is arches, and the player guessed arches and chaser, add 108 pts for
  */
 public class TextTwist {
     public static void main(String[] args) throws IOException {
-        new Words();
+        int score = 0;
+        Words wordClass = new Words();
+        String word = wordClass.generate();
+        System.out.println(word);
+        
+        Collections.shuffle(Arrays.asList(word.toCharArray()));
+
     }
 }
