@@ -2,6 +2,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -47,20 +48,61 @@ public class Words {
         int min = 1;
         int range = max - min + 1;
         int random = (int)Math.floor(Math.random()*(range)+min);
-        return list_six.get(random);
+        return shuffle(list_six.get(random));
     }
 
-    public boolean check(String word) {
-        if (word.length() == 6) {
-            return list_six.contains(word);
-        } else if (word.length() == 5) {
-            return list_five.contains(word);
-        } else if (word.length() == 4) {
-            return list_four.contains(word);
-        } else if (word.length() == 3) {
-            return list_three.contains(word);
-        } else {
-            return false;
+    public int check(String word) {
+        int length = word.length();
+        switch (length) {
+            case 6: if(list_six.contains(word)) {
+                System.out.println("Congratulations, you are a winner! You unscrambled the word!");
+                return 54;
+            }
+            case 5: if(list_five.contains(word)) return 3;
+            case 4: if(list_four.contains(word)) return 2;
+            case 3: if(list_three.contains(word)) return 1;
+            default: return 0;
         }
+    }
+
+    public String shuffle(String word) {
+        List<Character> list = new ArrayList<>();
+        for(char c : word.toCharArray()) {
+            list.add(c);
+        }
+        Collections.shuffle(list);
+        StringBuilder builder = new StringBuilder(list.size());
+        for(char c: list)
+        {
+            builder.append(c);
+        }
+        return builder.toString().toLowerCase();
+    }
+
+    public int totalPoints(List<String> list, String word) {
+        int result = 0;
+
+        for (String s : list) {
+            boolean check = true;
+
+            List<Character> charList = new ArrayList<>();
+            String temp = word;
+            for(char c : temp.toCharArray()) {
+                charList.add(c);
+            }
+
+            for (int i = 0; i < s.length(); i++) {
+                int pos = charList.indexOf(s.charAt(i));
+                if (pos == -1) {
+                    check = false;
+                    break;
+                } else {
+                    charList.remove(pos);
+                }
+            }
+
+            if(check) result = result + check(s);
+        }
+        return result;
     }
 }

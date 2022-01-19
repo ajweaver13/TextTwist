@@ -1,6 +1,7 @@
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collections;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 /*
 In Text Twist, players try to score points by forming words using the letters from a 6-letter scrambled word.
@@ -31,12 +32,34 @@ if the word is arches, and the player guessed arches and chaser, add 108 pts for
  */
 public class TextTwist {
     public static void main(String[] args) throws IOException {
-        int score = 0;
         Words wordClass = new Words();
+        Scanner scan = new Scanner (System.in);
         String word = wordClass.generate();
-        System.out.println(word);
-        
-        Collections.shuffle(Arrays.asList(word.toCharArray()));
 
+        System.out.println("-------------------------------------");
+        System.out.println("|       Welcome to Text Twist!      |");
+        System.out.println("-------------------------------------");
+        System.out.println("|  Guess as many valid words as you |");
+        System.out.println("|   can from a random scrambled 6   |");
+        System.out.println("|    letter word while trying to    |");
+        System.out.println("| unscramble it. Enter * to submit  |");
+        System.out.println("|     your entries to be scored.    |");
+        System.out.println("-------------------------------------\n");
+
+
+        System.out.println("Your word is:\t "+word+"\n");
+
+        List<String> list = new ArrayList<>();
+        System.out.print("Enter here: ");
+        String temp = scan.nextLine().toLowerCase();
+        while (!temp.equals("*")) {
+            list.add(temp);
+            System.out.print("Enter here: ");
+            temp = scan.nextLine().toLowerCase();
+        }
+        System.out.println("");
+        int total = wordClass.totalPoints(list, word);
+
+        System.out.println("Your total points is:\t "+total);
     }
 }
